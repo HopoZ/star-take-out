@@ -1,6 +1,7 @@
 package com.star.controller.admin;
 
 import com.star.constant.JwtClaimsConstant;
+import com.star.dto.EmployeeDTO;
 import com.star.dto.EmployeeLoginDTO;
 import com.star.entity.Employee;
 import com.star.properties.JwtProperties;
@@ -70,5 +71,10 @@ public class EmployeeController {
     public Result<String> logout() {
         return Result.success();
     }
-
+    @PostMapping("/add")
+    public Result save(@RequestBody EmployeeDTO employeeDTO){
+        log.info("新增员工:{}",employeeDTO);
+        employeeService.save(employeeDTO);
+        return null;
+    }
 }

@@ -1,7 +1,9 @@
 package com.star.service.impl;
 
 import com.star.constant.MessageConstant;
+import com.star.constant.PasswordConstant;
 import com.star.constant.StatusConstant;
+import com.star.dto.EmployeeDTO;
 import com.star.dto.EmployeeLoginDTO;
 import com.star.entity.Employee;
 import com.star.exception.AccountLockedException;
@@ -9,9 +11,12 @@ import com.star.exception.AccountNotFoundException;
 import com.star.exception.PasswordErrorException;
 import com.star.mapper.EmployeeMapper;
 import com.star.service.EmployeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.time.LocalDateTime;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -53,6 +58,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //3、返回实体对象
         return employee;
+    }
+
+    /**
+     * 新增员工
+     *
+     * @param employeeDTO
+     */
+    @Override
+    public void save(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+        employee.setStatus(StatusConstant.ENABLE);
+        employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        // TODO 后期需要修改为当前登录的用户id
+        employee.setCreateUser(19L);
+        employee.setUpdateUser(19L);
+
+        employeeMapper.insert(employee);
     }
 
 }
