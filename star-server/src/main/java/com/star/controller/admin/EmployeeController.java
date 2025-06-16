@@ -71,10 +71,16 @@ public class EmployeeController {
     public Result<String> logout() {
         return Result.success();
     }
+
+    /**
+     * 新增
+     * @param employeeDTO
+     * @return
+     */
     @PostMapping("/add")
     public Result save(@RequestBody EmployeeDTO employeeDTO){
         log.info("新增员工:{}",employeeDTO);
         employeeService.save(employeeDTO);
-        return null;
+        return Result.success();
     }
 }

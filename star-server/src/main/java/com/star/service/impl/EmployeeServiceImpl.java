@@ -3,6 +3,7 @@ package com.star.service.impl;
 import com.star.constant.MessageConstant;
 import com.star.constant.PasswordConstant;
 import com.star.constant.StatusConstant;
+import com.star.context.BaseContext;
 import com.star.dto.EmployeeDTO;
 import com.star.dto.EmployeeLoginDTO;
 import com.star.entity.Employee;
@@ -74,9 +75,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setCreateTime(LocalDateTime.now());
         employee.setUpdateTime(LocalDateTime.now());
 
-        // TODO 后期需要修改为当前登录的用户id
-        employee.setCreateUser(19L);
-        employee.setUpdateUser(19L);
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
     }
