@@ -3,18 +3,18 @@ package com.star.controller.admin;
 import com.star.constant.JwtClaimsConstant;
 import com.star.dto.EmployeeDTO;
 import com.star.dto.EmployeeLoginDTO;
+import com.star.dto.EmployeePageQueryDTO;
 import com.star.entity.Employee;
 import com.star.properties.JwtProperties;
+import com.star.result.PageResult;
 import com.star.result.Result;
 import com.star.service.EmployeeService;
 import com.star.utils.JwtUtil;
 import com.star.vo.EmployeeLoginVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +39,7 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/login")
+    @ApiOperation("登录")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("员工登录：{}", employeeLoginDTO);
 
@@ -68,6 +69,7 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/logout")
+    @ApiOperation("退出")
     public Result<String> logout() {
         return Result.success();
     }
@@ -78,9 +80,30 @@ public class EmployeeController {
      * @return
      */
     @PostMapping("/add")
+    @ApiOperation("新增")
     public Result save(@RequestBody EmployeeDTO employeeDTO){
         log.info("新增员工:{}",employeeDTO);
         employeeService.save(employeeDTO);
+        return Result.success();
+    }
+
+    @GetMapping("/page")
+    @ApiOperation("员工分页查询")
+    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
+        PageResult pageResult =employeeService.pageQuery(employeePageQueryDTO);
+        return Result.success(pageResult);
+    }
+
+    /**
+     * 启用禁用账号
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用禁用账号")
+    public Result StartOrStop(@PathVariable Integer status,Long id){
+        employeeService.startOrStop(status,id);
         return Result.success();
     }
 }
