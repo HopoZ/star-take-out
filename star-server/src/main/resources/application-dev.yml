@@ -6,3 +6,8 @@ star:
     database: star_take_out
     username: HITmanager
     password: HITmanager
+  alioss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    access-key-id: ${accessKeyId}
+    access-key-secret: ${accessKeySecret}
+    bucket-name: web-qwr
