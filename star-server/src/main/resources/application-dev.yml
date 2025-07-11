@@ -4,8 +4,8 @@ star:
     host: localhost
     port: 3306
     database: star_take_out
-    username: HITmanager
-    password: HITmanager
+    username: test
+    password: test123
   alioss:
     endpoint: oss-cn-hangzhou.aliyuncs.com
     access-key-id: ${accessKeyId}
