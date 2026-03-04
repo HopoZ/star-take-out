@@ -1,15 +1,23 @@
 package com.star.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.star.constant.MessageConstant;
 import com.star.dto.DishDTO;
 import com.star.entity.Dish;
 import com.star.entity.DishFlavor;
+import com.star.exception.DeletionNotAllowedException;
 import com.star.mapper.DishFlavorMapper;
 import com.star.mapper.DishMapper;
+import com.star.mapper.SetmealDishMapper;
+import com.star.result.PageResult;
 import com.star.service.DishService;
+import com.star.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +29,8 @@ public class DishServiceImpl implements DishService {
     private DishMapper dishMapper;
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
+    @Autowired
+    private SetmealDishMapper setmealDishMapper;
 
 
     /**
@@ -30,20 +40,68 @@ public class DishServiceImpl implements DishService {
      */
     @Override
     public void saveWithFlavor(DishDTO dishDTO) {
-        
-        //向菜单表插入一条数据
+
         Dish dish = new Dish();
-        BeanUtils.copyProperties(dishDTO,dish);
+        BeanUtils.copyProperties(dishDTO, dish);
+
+        //向菜单表插入一条数据
         dishMapper.insert(dish);
-        
-        //向口味表插入n条数据
+        //获取insert操作后生成的菜品id主键
         Long dishId = dish.getId();
+        //向口味表插入n条数据
         List<DishFlavor> flavors = dishDTO.getFlavors();
-        if(flavors!=null && !flavors.isEmpty()){
+        if (flavors != null && !flavors.isEmpty()) {
             flavors.forEach(dishFlavor -> dishFlavor.setDishId(dishId));
             dishFlavorMapper.insertBatch(flavors);
         }
 
 
+    }
+
+    /**
+     * 分页查询菜品
+     *
+     * @param dishPageQueryDTO
+     * @return
+     */
+    @Override
+    public com.star.result.PageResult pageQuery(com.star.dto.DishPageQueryDTO dishPageQueryDTO) {
+        PageHelper.startPage(dishPageQueryDTO.getPage(), dishPageQueryDTO.getPageSize());
+        Page<DishVO> page = dishMapper.pageQuery(dishPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /**
+     * 批量删除菜品
+     *
+     * @param ids
+     */
+    @Transactional
+    public void deletebatch(Long[] ids) {
+        //是否在售
+        for (Long id : ids) {
+            Dish dish = dishMapper.selectById(id);
+            if (dish.getStatus() == 1) {
+                throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
+            }
+        }
+        //是否关联了套餐
+        for (Long id : ids) {
+            List<Long> setmealIds = setmealDishMapper.selectSetmealIdsByDishId(id);
+            if (setmealIds != null && !setmealIds.isEmpty()) {
+                throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
+            }
+        }
+
+        //删除菜品表数据
+//        for (Long id : ids) {
+//            dishMapper.deleteById(id);
+//            //删除口味表数据
+//            dishFlavorMapper.deleteByDishId(id);
+//        }
+        //批量删除菜品数据
+        dishMapper.deleteByIds(ids);
+        //批量删除口味数据
+        dishFlavorMapper.deleteByDishIds(ids);
     }
 }

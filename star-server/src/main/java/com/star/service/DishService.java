@@ -1,6 +1,8 @@
 package com.star.service;
 
 import com.star.dto.DishDTO;
+import com.star.dto.DishPageQueryDTO;
+import com.star.result.PageResult;
 
 public interface DishService {
     /**
@@ -8,4 +10,17 @@ public interface DishService {
      * @param dishDTO
      */
     public void saveWithFlavor(DishDTO dishDTO);
+
+    /**
+     * 分页查询菜品
+     * @param dishPageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+    /**
+     * 批量删除菜品
+     * @param ids
+     */
+    void deletebatch(Long[] ids);
 }

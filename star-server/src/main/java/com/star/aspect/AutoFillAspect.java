@@ -45,7 +45,7 @@ public class AutoFillAspect {
             if (operationType == OperationType.INSERT) {
                 Method setCreateTime = object.getClass().getDeclaredMethod("setCreateTime", LocalDateTime.class);
                 Method setCreateUser = object.getClass().getDeclaredMethod("setCreateUser", Long.class);
-                Method setUpdateTime = object.getClass().getDeclaredMethod("SetUpdateTime", LocalDateTime.class);
+                Method setUpdateTime = object.getClass().getDeclaredMethod("setUpdateTime", LocalDateTime.class);
                 Method setUpdateUser = object.getClass().getDeclaredMethod("setUpdateUser", Long.class);
 
                 //通过反射为对象属性赋值
@@ -55,7 +55,7 @@ public class AutoFillAspect {
                 setUpdateUser.invoke(object,currentId);
 
             } else if(operationType==OperationType.UPDATE){
-                Method setUpdateTime = object.getClass().getDeclaredMethod("SetUpdateTime", LocalDateTime.class);
+                Method setUpdateTime = object.getClass().getDeclaredMethod("setUpdateTime", LocalDateTime.class);
                 Method setUpdateUser = object.getClass().getDeclaredMethod("setUpdateUser", Long.class);
                 setUpdateTime.invoke(object,now);
                 setUpdateUser.invoke(object,currentId);
