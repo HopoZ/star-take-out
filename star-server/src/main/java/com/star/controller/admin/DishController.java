@@ -5,6 +5,7 @@ import com.star.dto.DishPageQueryDTO;
 import com.star.result.PageResult;
 import com.star.result.Result;
 import com.star.service.DishService;
+import com.star.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +23,14 @@ public class DishController {
 
     /**
      * 新增菜品
+     *
      * @param dishDTO
      * @return
      */
     @PostMapping
     @ApiOperation("新增菜品")
-    public Result save(@RequestBody DishDTO dishDTO){
-        log.info("新增菜品{}",dishDTO);
+    public Result save(@RequestBody DishDTO dishDTO) {
+        log.info("新增菜品{}", dishDTO);
         dishService.saveWithFlavor(dishDTO);
         return Result.success();
 
@@ -36,21 +38,57 @@ public class DishController {
 
     /**
      * 分页查询菜品
+     *
      * @param dishPageQueryDTO
      * @return
      */
     @GetMapping("/page")
     @ApiOperation("分页查询菜品")
-    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
+    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
         PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
         return Result.success(pageResult);
     }
 
+    /**
+     * 批量删除菜品
+     *
+     * @param ids
+     * @return
+     */
     @DeleteMapping
     @ApiOperation("批量删除菜品")
-    public Result delete(@RequestParam("ids") Long[] ids){
-        log.info("删除菜品，ids={}",ids);
+    public Result delete(@RequestParam("ids") Long[] ids) {
+        log.info("删除菜品，ids={}", ids);
         dishService.deletebatch(ids);
+        return Result.success();
+    }
+
+
+    /**
+     * 根据id查询菜品信息
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询菜品信息")
+    public Result<DishVO> getById(@PathVariable("id") Long id) {
+        log.info("根据id查询菜品信息，id={}", id);
+        DishVO dishVO = dishService.getByIdWithFlavor(id);
+        return Result.success(dishVO);
+    }
+
+    /**
+     * 修改菜品信息
+     *
+     * @param dishDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改菜品信息")
+    public Result update(@RequestBody DishDTO dishDTO) {
+        log.info("修改菜品信息，dishDTO={}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
         return Result.success();
     }
 }
