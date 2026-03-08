@@ -1,5 +1,11 @@
 # star外卖系统后端
 
+# 项目结构
+| 模块 | 说明 | 技术                  |
+|-----|-----|---------------------|
+| mp-weixin | 微信小程序客户端源码 | WeChat Mini Program |
+| nginx-1.20.2 | 前端页面与静态资源部署 | vue Nginx           |
+| star-server | 后端服务接口与业务逻辑 | Spring Boot         |
 
 # 运行
 首先在系统环境变量中设置好阿里云AccessKey的账号和密码。参考[hopoz.github.io/阿里云OSS配置/](https://hopoz.github.io/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%85%8D%E7%BD%AE/)
