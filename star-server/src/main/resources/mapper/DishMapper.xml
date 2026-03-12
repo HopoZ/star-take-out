@@ -8,7 +8,7 @@
         values
             (#{id},#{name},#{categoryId},#{price},#{image},#{description},#{createTime},#{updateTime},#{createUser},#{updateUser},#{status} )
     </insert>
-    <update id="updateWithFlavor">
+    <update id="update">
         update dish
         <set>
             <if test="name != null">

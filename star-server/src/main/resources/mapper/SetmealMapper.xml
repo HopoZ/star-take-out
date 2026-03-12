@@ -10,6 +10,7 @@
         values (#{categoryId}, #{name}, #{price}, #{status}, #{description}, #{image}, #{createTime}, #{updateTime},
                 #{createUser}, #{updateUser})
     </insert>
+
     <update id="update">
         update setmeal
         <set>

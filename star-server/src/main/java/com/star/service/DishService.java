@@ -37,9 +37,12 @@ public interface DishService {
 
     /**
      * 更新菜品和对应的口味
+     *
      * @param dishDTO
      */
-    void updateWithFlavor(DishDTO dishDTO);
+    default void updateWithFlavor(DishDTO dishDTO) {
+
+    }
 
     /**
      * 条件查询菜品和口味
@@ -54,4 +57,11 @@ public interface DishService {
      * @return
      */
     List<Dish> list(Long categoryId);
+
+    /**
+     * 菜品起售停售
+     * @param status
+     * @param id
+     */
+    void startOrStop(Integer status, Long id);
 }
