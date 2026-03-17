@@ -69,3 +69,6 @@ http://localhost:8080
 配置 AppID（测试号或正式 AppID）,编译运行即可。
 
 ---
+
+## 关于微信支付
+个人开发者没申请公司，只能模拟微信支付服务器[https://github.com/HopoZ/wechatPayDemo](https://github.com/HopoZ/wechatPayDemo)，以此完成功能开发
