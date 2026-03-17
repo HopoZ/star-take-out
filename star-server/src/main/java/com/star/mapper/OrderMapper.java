@@ -24,4 +24,12 @@ public interface OrderMapper {
      * @param orders
      */
     void update(Orders orders);
+
+    /**
+     * 根据用户ID和订单号查询订单
+     * @param userId
+     * @param number
+     * @return
+     */
+    Orders getByUserIdAndNumber(Long userId, String number);
 }

@@ -223,23 +223,56 @@ var _api = __webpack_require__(/*! @/pages/api/api.js */ 24);function ownKeys(ob
 
         (0, _api.paymentOrder)(params).then(function (res) {
           if (res.code === 1) {
-            wx.requestPayment({
-              nonceStr: res.data.nonceStr,
-              package: res.data.packageStr,
-              paySign: res.data.paySign,
-              timeStamp: res.data.timeStamp,
-              signType: res.data.signType,
-              success:function(res){
-                wx.showModal({
-                  title: '提示',
-                  content: '支付成功',
-                  success:function(){
-                    uni.redirectTo({url: '/pages/success/index?orderId=' + _this.orderId });
-                  }
-                })
-                console.log('支付成功!')
+            //本地后端模拟微信服务器
+            wx.request({
+              url: 'http://localhost:8081/pay/transactions/payment', //模拟微信支付后端
+              data: {
+                nonceStr: res.data.nonceStr,
+                prepayId: res.data.packageStr,
+                paySign: res.data.paySign,
+                timeStamp: res.data.timeStamp,
+                signType: res.data.signType,
+              },
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              method: 'POST',
+              success(res) {
+                console.log(res)
+                //支付成功
+                if(res.data.code == 1){
+                  wx.showModal({
+                    title: '提示',
+                    content: '支付成功',
+                    success: function () {
+                      uni.redirectTo({
+                        url: '/pages/success/index?orderId=' + _this.orderId
+                      });
+                    }
+                  })
+                  console.log('支付成功!')
+                }
               }
             })
+
+            //调用微信支付
+            // wx.requestPayment({
+            //   nonceStr: res.data.nonceStr,
+            //   package: res.data.packageStr,
+            //   paySign: res.data.paySign,
+            //   timeStamp: res.data.timeStamp,
+            //   signType: res.data.signType,
+            //   success:function(res){
+            //     wx.showModal({
+            //       title: '提示',
+            //       content: '支付成功',
+            //       success:function(){
+            //         uni.redirectTo({url: '/pages/success/index?orderId=' + _this.orderId });
+            //       }
+            //     })
+            //     console.log('支付成功!')
+            //   }
+            // })
 
 
             //uni.redirectTo({url: '/pages/success/index?orderId=' + _this.orderId });

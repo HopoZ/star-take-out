@@ -50,3 +50,10 @@ star:
   wechat:
     app-id: ${star.wechat.app-id}
     secret: ${star.wechat.secret}
+    mchid: abc
+    mch-serial-no: abc
+    private-key-file-path: classpath:cert/apiclient_key.pem
+    api-v3-key: abc
+    we-chat-pay-cert-file-path: classpath:cert/wechatpay_cert.pem
+    notify-url: http://localhost:8080/api/pay/notify
+    refund-notify-url: http://localhost:8080/api/pay/refund/notify

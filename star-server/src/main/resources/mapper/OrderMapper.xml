@@ -27,4 +27,12 @@
         </set>
         where id = #{id}
     </update>
+
+
+    <select id="getByUserIdAndNumber" resultType="com.star.entity.Orders">
+        select amount
+        from orders
+        where user_id = #{userId}
+          and number = #{number}
+    </select>
 </mapper>
