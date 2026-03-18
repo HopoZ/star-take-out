@@ -42,7 +42,7 @@ password: test123
 
 运行 Spring Boot 启动类：
 
-star-server/src/main/java/com/star/StarApplication.java
+[star-server/src/main/java/com/star/StarApplication.java](star-server/src/main/java/com/star/StarApplication.java)
 
 启动成功后，后端接口服务默认运行在：
 

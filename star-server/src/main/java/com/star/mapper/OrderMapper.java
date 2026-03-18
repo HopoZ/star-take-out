@@ -1,5 +1,7 @@
 package com.star.mapper;
 
+import com.github.pagehelper.Page;
+import com.star.dto.OrdersPageQueryDTO;
 import com.star.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -32,4 +34,10 @@ public interface OrderMapper {
      * @return
      */
     Orders getByUserIdAndNumber(Long userId, String number);
+
+    /**
+     * 分页条件查询并按下单时间排序
+     * @param ordersPageQueryDTO
+     */
+    Page<Orders> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
 }
