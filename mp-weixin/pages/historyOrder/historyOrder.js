@@ -345,8 +345,6 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
       return (0, _index.statusWord)(status, time);
     },
     getOvertime: function getOvertime(time) {
-      console.log('time值:', time)
-      console.log('time类型:', typeof time)
       return (0, _index.getOvertime)(time);
     },
     // 获取历史订单列表

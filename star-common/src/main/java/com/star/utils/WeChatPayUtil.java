@@ -33,11 +33,11 @@ public class WeChatPayUtil {
     @Autowired
     private WeChatProperties weChatProperties;
 
-    /**
-     * 获取调用微信接口的客户端工具对象
-     *
-     * @return
-     */
+//    /**
+//     * 获取调用微信接口的客户端工具对象
+//     *
+//     * @return
+//     */
 //    private CloseableHttpClient getClient() {
 //        PrivateKey merchantPrivateKey = null;
 //        try {
@@ -184,12 +184,18 @@ public class WeChatPayUtil {
 //            String packageSign = Base64.getEncoder().encodeToString(signature.sign());
 
             //构造数据给微信小程序，用于调起微信支付
+//            JSONObject jo = new JSONObject();
+//            jo.put("timeStamp", timeStamp);
+//            jo.put("nonceStr", nonceStr);
+//            jo.put("package", "prepay_id=" + prepayId);
+//            jo.put("signType", "RSA");
+//            jo.put("paySign", packageSign);
+//            jo.put("paySign", "123456789");
             JSONObject jo = new JSONObject();
             jo.put("timeStamp", timeStamp);
             jo.put("nonceStr", nonceStr);
-            jo.put("package", "prepay_id=" + prepayId);
+            jo.put("package", prepayId);
             jo.put("signType", "RSA");
-//            jo.put("paySign", packageSign);
             jo.put("paySign", "123456789");
 
             return jo;

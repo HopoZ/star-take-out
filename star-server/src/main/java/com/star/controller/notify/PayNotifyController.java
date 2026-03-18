@@ -1,4 +1,4 @@
-package com.star.controller.user;
+package com.star.controller.notify;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
