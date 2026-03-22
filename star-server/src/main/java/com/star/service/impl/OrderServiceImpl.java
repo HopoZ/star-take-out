@@ -1,5 +1,6 @@
 package com.star.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -51,6 +52,29 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private WebSocketServer webSocketServer;
+
+    /**
+     * 订单催单
+     *
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        // 根据id查询订单
+        Orders ordersDB = orderMapper.getById(id);
+
+        // 校验订单是否存在
+        if (ordersDB == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Map map = new HashMap();
+        map.put("type", 2);
+        map.put("orderId", id);
+        map.put("content", "订单号：" + ordersDB.getNumber());
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
+
+    }
 
     /**
      * 用户下单
@@ -180,10 +204,10 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
 
         // 支付成功后通过websocket推送消息给商户端
-        Map map =new HashMap();
-        map.put("type",1);
-        map.put("orderId",ordersDB.getId());
-        map.put("content","订单号："+ordersDB.getNumber());
+        Map map = new HashMap();
+        map.put("type", 1);
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "订单号：" + ordersDB.getNumber());
         webSocketServer.sendToAllClient(JSONObject.toJSONString(map));
     }
 

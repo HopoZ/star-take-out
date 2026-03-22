@@ -9,7 +9,15 @@ import com.star.vo.OrderVO;
 
 public interface OrderService {
     /**
+     * 订单催单
+     *
+     * @param id
+     */
+    void reminder(Long id);
+
+    /**
      * 用户下单
+     *
      * @param ordersSubmitDTO
      * @return
      */
@@ -17,6 +25,7 @@ public interface OrderService {
 
     /**
      * 订单支付
+     *
      * @param ordersPaymentDTO
      * @return
      */
@@ -24,12 +33,14 @@ public interface OrderService {
 
     /**
      * 支付成功，修改订单状态
+     *
      * @param outTradeNo
      */
     void paySuccess(String outTradeNo);
 
     /**
      * 用户端订单分页查询
+     *
      * @param page
      * @param pageSize
      * @param status
@@ -39,6 +50,7 @@ public interface OrderService {
 
     /**
      * 查询订单详情
+     *
      * @param id
      * @return
      */
@@ -46,6 +58,7 @@ public interface OrderService {
 
     /**
      * 用户取消订单
+     *
      * @param id
      */
     void userCancelById(Long id) throws Exception;
@@ -59,6 +72,7 @@ public interface OrderService {
 
     /**
      * 条件搜索订单
+     *
      * @param ordersPageQueryDTO
      * @return
      */
@@ -66,6 +80,7 @@ public interface OrderService {
 
     /**
      * 各个状态的订单数量统计
+     *
      * @return
      */
     OrderStatisticsVO statistics();
